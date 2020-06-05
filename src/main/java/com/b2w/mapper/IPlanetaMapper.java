@@ -6,12 +6,12 @@ import org.mapstruct.factory.Mappers;
 import com.b2w.dto.PlanetaDto;
 import com.b2w.entity.Planeta;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface IPlanetaMapper {
 
 	IPlanetaMapper INSTANCE = Mappers.getMapper( IPlanetaMapper.class );
     
-    PlanetaDto planetaToCarDto(Planeta planeta);
+    PlanetaDto planetaToPlanetaDto(Planeta planeta);
     Planeta planetaDtoToPlaneta(PlanetaDto planetaDto);
 	
 }

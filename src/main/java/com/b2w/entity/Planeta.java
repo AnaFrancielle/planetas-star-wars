@@ -24,6 +24,6 @@ public class Planeta {
 	private String clima;
 	
 	@Column(name = "terreno")
-	private String terreno;
-
+	private String terreno;	
+	
 }

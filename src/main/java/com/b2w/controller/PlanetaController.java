@@ -3,6 +3,7 @@ package com.b2w.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +14,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.b2w.dto.PlanetaDto;
+import com.b2w.service.contrato.IPlanetaService;
 
 @RestController
 public class PlanetaController {
 
+	@Autowired
+	private IPlanetaService planetaService;
+	
 	@PostMapping(path = "/planetas")
-	public ResponseEntity<PlanetaDto> adicionar(@RequestBody PlanetaDto planeta) {
-		return ResponseEntity.ok(new PlanetaDto());
+	public ResponseEntity<PlanetaDto> adicionar(@RequestBody PlanetaDto planetaDto) {
+		planetaDto = this.planetaService.adicionar(planetaDto);
+		return ResponseEntity.ok(planetaDto);
 	}
 
 	@GetMapping(path = "/planetas")

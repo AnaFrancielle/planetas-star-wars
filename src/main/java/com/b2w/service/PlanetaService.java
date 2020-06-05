@@ -3,24 +3,28 @@ package com.b2w.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.b2w.dto.PlanetaDto;
+import com.b2w.entity.Planeta;
+import com.b2w.mapper.IPlanetaMapper;
 import com.b2w.repository.IPlanetaRepository;
 import com.b2w.service.contrato.IPlanetaService;
 
 @Service
-public class PlanetaService implements IPlanetaService{
+public class PlanetaService implements IPlanetaService {
 
-	//private IPlanetaMapper mapper;
 	@Autowired
 	private IPlanetaRepository planetaRepository;
 	
+
 	@Override
 	public PlanetaDto adicionar(PlanetaDto planetaDto) {
-		// TODO Auto-generated method stub
-		return null;
+		Planeta planeta = IPlanetaMapper.INSTANCE.planetaDtoToPlaneta(planetaDto);
+		planeta = planetaRepository.save(planeta);
+		return IPlanetaMapper.INSTANCE.planetaToPlanetaDto(planeta);
 	}
 
 	@Override
@@ -32,7 +36,7 @@ public class PlanetaService implements IPlanetaService{
 	@Override
 	public void remover(Long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
