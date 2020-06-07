@@ -19,9 +19,8 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<org.mapstruct.version>1.1.0.Beta1</org.mapstruct.version>
+		<org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
 		<org.projectlombok.version>1.16.20</org.projectlombok.version>
-		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
 	</properties>
 
 	<dependencies>
@@ -63,6 +62,12 @@
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>${org.mapstruct.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
 		</dependency>
 
 	</dependencies>

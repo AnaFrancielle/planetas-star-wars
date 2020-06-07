@@ -1,20 +1,13 @@
 package com.b2w.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.b2w.dto.PlanetaDto;
+import com.b2w.dto.ResponseDto;
+import com.b2w.service.contrato.IPlanetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.b2w.dto.PlanetaDto;
-import com.b2w.service.contrato.IPlanetaService;
+import java.util.List;
 
 @RestController
 public class PlanetaController {
@@ -23,34 +16,55 @@ public class PlanetaController {
 	private IPlanetaService planetaService;
 	
 	@PostMapping(path = "/planetas")
-	public ResponseEntity<PlanetaDto> adicionar(@RequestBody PlanetaDto planetaDto) {
+	public ResponseEntity<ResponseDto> adicionar(@RequestBody PlanetaDto planetaDto) {
 		planetaDto = this.planetaService.adicionar(planetaDto);
-		return ResponseEntity.ok(planetaDto);
+		ResponseDto responseDto = new ResponseDto();
+		responseDto.setDados(planetaDto);
+
+		return ResponseEntity.ok(responseDto);
 	}
 
 	@GetMapping(path = "/planetas")
-	public ResponseEntity<List<PlanetaDto>> buscarTodos() {
-		return ResponseEntity.ok(new ArrayList<>());
+	@RequestMapping(path = "/planetas", method = RequestMethod.GET)
+	public ResponseEntity<ResponseDto> buscarTodos() {
+		List<PlanetaDto> planetas = this.planetaService.buscar();
+		ResponseDto responseDto = new ResponseDto();
+		responseDto.setDados(planetas);
+
+		return ResponseEntity.ok(responseDto);
 	}
 
-	@GetMapping(path = "/planetas/:id")
-	public ResponseEntity<PlanetaDto> buscarPorId(@RequestParam Long id) {
-		return ResponseEntity.ok(new PlanetaDto());
+	@GetMapping(path = "/planetas/{id}")
+	public ResponseEntity<ResponseDto> buscarPorId(@PathVariable Long id) {
+		PlanetaDto planetaDto = this.planetaService.buscar(id);
+		ResponseDto responseDto = new ResponseDto();
+		responseDto.setDados(planetaDto);
+
+		return ResponseEntity.ok(responseDto);
 	}
 
-	@GetMapping(path = "/planetas/?busca=:palavraChave")
-	public ResponseEntity<List<PlanetaDto>> buscarPorPalavraChave(@RequestParam String palavraChave) {
-		return ResponseEntity.ok(new ArrayList<>());
+	@GetMapping(path = "/planetas/buscar/{palavraChave}")
+	public ResponseEntity<ResponseDto> buscarPorPalavraChave(@PathVariable String palavraChave) {
+		List<PlanetaDto> planetas = this.planetaService.buscar(palavraChave);
+		ResponseDto responseDto = new ResponseDto();
+		responseDto.setDados(planetas);
+
+		return ResponseEntity.ok(responseDto);
 	}
 
-	@PutMapping(path = "/planetas/:id")
-	public ResponseEntity<PlanetaDto> atualizar(@RequestParam Long id) {
-		return ResponseEntity.ok(new PlanetaDto());
+	@PutMapping(path = "/planetas/{id}")
+	public ResponseEntity<ResponseDto> atualizar(@PathVariable Long id, @RequestBody PlanetaDto planetaDto) {
+		planetaDto = this.planetaService.atualizar(id, planetaDto);
+		ResponseDto responseDto = new ResponseDto();
+		responseDto.setDados(planetaDto);
+
+		return ResponseEntity.ok(responseDto);
 	}
 
-	@DeleteMapping(path = "/planetas/:id")
-	public ResponseEntity<PlanetaDto> remover(@RequestParam Long id) {
-		return ResponseEntity.ok(new PlanetaDto());
+	@DeleteMapping(path = "/planetas/{id}")
+	public ResponseEntity<Void> remover(@PathVariable Long id) {
+		this.planetaService.remover(id);
+		return ResponseEntity.ok().build();
 	}
 
 }
