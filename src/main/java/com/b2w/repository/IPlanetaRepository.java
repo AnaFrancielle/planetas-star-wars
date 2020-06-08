@@ -1,7 +1,7 @@
 package com.b2w.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -11,8 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface IPlanetaRepository extends JpaRepository<Planeta, Long> {
+public interface IPlanetaRepository extends MongoRepository<Planeta, Long> {
 
-    @Query("SELECT p FROM Planeta p WHERE LOWER(p.nome) LIKE :palavraChave OR LOWER(p.clima) LIKE :palavraChave OR LOWER(p.terreno) LIKE :palavraChave")
-    List<Planeta> buscarPorPalavraChave(@Param("palavraChave") String palavraChave);
+    Planeta findById(String id);
+    List<Planeta> findByNomeLikeOrClimaLikeOrTerrenoLikeOrIdLike(String nome, String clima, String terreno, String id);
+
 }

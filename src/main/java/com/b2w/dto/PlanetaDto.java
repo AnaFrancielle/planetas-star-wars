@@ -2,8 +2,7 @@ package com.b2w.dto;
 
 import java.io.Serializable;
 
-import com.b2w.execoes.ValidacaoPlanetaDtoException;
-import lombok.Data;
+import com.b2w.excecao.ValidacaoPlanetaDtoException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 public class PlanetaDto implements Serializable {
 
-	private Long id;
+	private String id;
 	private String nome;
 	private String clima;
 	private String terreno;

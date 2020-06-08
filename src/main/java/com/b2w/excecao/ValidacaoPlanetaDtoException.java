@@ -1,4 +1,4 @@
-package com.b2w.execoes;
+package com.b2w.excecao;
 
 import lombok.Getter;
 

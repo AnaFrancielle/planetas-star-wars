@@ -8,11 +8,9 @@ import com.b2w.dto.PlanetaDto;
 public interface IPlanetaService {
 
 	PlanetaDto adicionar(PlanetaDto planetaDto);
-	PlanetaDto atualizar(Long id, PlanetaDto planetaDto);
-	void remover(Long id);
-	PlanetaDto buscar(Long id);
+	PlanetaDto atualizar(String id, PlanetaDto planetaDto);
+	void remover(String id);
+	PlanetaDto buscarPorId(String id);
 	List<PlanetaDto> buscar();
-	List<PlanetaDto> buscar(String palavraChave);
-	BigDecimal buscarQuantidadeDeFilmes(String nomePlaneta);
-	
+	List<PlanetaDto> buscarPorPalavraChave(String palavraChave);
 }

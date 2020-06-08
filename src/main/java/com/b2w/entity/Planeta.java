@@ -9,15 +9,16 @@ import javax.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 
-@Entity
+@Document(collection = "planeta")
 @Getter @Setter @NoArgsConstructor
 public class Planeta {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	@Id
+	private String id;
 	
 	@Column(name = "nome", nullable = false)
 	private String nome;

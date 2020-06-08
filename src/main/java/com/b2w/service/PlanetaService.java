@@ -1,11 +1,9 @@
 package com.b2w.service;
 
-import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.List;
 
-import com.b2w.execoes.PlanetaNaoEncontradoException;
-import org.mapstruct.factory.Mappers;
+import com.b2w.excecao.PlanetaNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +12,6 @@ import com.b2w.entity.Planeta;
 import com.b2w.mapper.IPlanetaMapper;
 import com.b2w.repository.IPlanetaRepository;
 import com.b2w.service.contrato.IPlanetaService;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class PlanetaService implements IPlanetaService {
@@ -37,10 +34,12 @@ public class PlanetaService implements IPlanetaService {
     }
 
     @Override
-    public PlanetaDto atualizar(Long id, PlanetaDto planetaDto) {
-		Planeta planeta = planetaRepository.findById(id).orElseThrow(
-				() -> new PlanetaNaoEncontradoException(MessageFormat.format("Planeta com id {0} não encontrado", id))
-		);
+    public PlanetaDto atualizar(String id, PlanetaDto planetaDto) {
+		Planeta planeta = planetaRepository.findById(id);
+
+		if (planeta == null) {
+            new PlanetaNaoEncontradoException(MessageFormat.format("Planeta com id {0} não encontrado", id));
+        }
 
 		if (planetaDto.getNome() != null && !planetaDto.getNome().trim().isEmpty()){
 		    planeta.setNome(planetaDto.getNome());
@@ -60,18 +59,24 @@ public class PlanetaService implements IPlanetaService {
     }
 
     @Override
-    public void remover(Long id) {
-		Planeta planeta = planetaRepository.findById(id).orElseThrow(
-				() -> new PlanetaNaoEncontradoException(MessageFormat.format("Planeta com id {0} não encontrado", id))
-		);
+    public void remover(String id) {
+		Planeta planeta = planetaRepository.findById(id);
+
+        if (planeta == null) {
+            new PlanetaNaoEncontradoException(MessageFormat.format("Planeta com id {0} não encontrado", id));
+        }
+
 		planetaRepository.delete(planeta);
     }
 
     @Override
-    public PlanetaDto buscar(Long id) {
-        Planeta planeta = planetaRepository.findById(id).orElseThrow(
-        		() -> new PlanetaNaoEncontradoException(MessageFormat.format("Planeta com id {0} nao encontrado", id))
-		);
+    public PlanetaDto buscarPorId(String id) {
+        Planeta planeta = planetaRepository.findById(id);
+
+        if (planeta == null) {
+            new PlanetaNaoEncontradoException(MessageFormat.format("Planeta com id {0} não encontrado", id));
+        }
+
         return IPlanetaMapper.INSTANCE.planetaToPlanetaDto(planeta);
     }
 
@@ -82,15 +87,11 @@ public class PlanetaService implements IPlanetaService {
     }
 
     @Override
-    public List<PlanetaDto> buscar(String palavraChave) {
-    	palavraChave = "%" + palavraChave.toLowerCase() + "%";
-		List<Planeta> planetas = planetaRepository.buscarPorPalavraChave(palavraChave);
+    public List<PlanetaDto> buscarPorPalavraChave(String palavraChave) {
+		List<Planeta> planetas = planetaRepository.
+                findByNomeLikeOrClimaLikeOrTerrenoLikeOrIdLike(palavraChave,palavraChave,palavraChave,palavraChave);
 		return IPlanetaMapper.INSTANCE.planetasToPlanetaDtos(planetas);
     }
 
-    @Override
-    public BigDecimal buscarQuantidadeDeFilmes(String nomePlaneta) {
-        return null;
-    }
-
 }
+

@@ -1,5 +1,6 @@
 package com.b2w.service;
 
+import com.b2w.excecao.SwapiException;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -15,11 +16,15 @@ public class SwapiService {
     public static final String API_URL = "https://swapi.dev/api/planets/?search=";
 
     public Integer quantidadeFilmesPorPlaneta(String nomePlaneta){
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response
-                = restTemplate.getForEntity(API_URL + nomePlaneta, String.class);
-
-        return this.prepararResultado(response);
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> response
+                    = restTemplate.getForEntity(API_URL + nomePlaneta, String.class);
+            return this.prepararResultado(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SwapiException();
+        }
     }
 
     private Integer prepararResultado(ResponseEntity<String> response){
