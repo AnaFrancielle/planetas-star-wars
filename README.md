@@ -27,14 +27,14 @@ mvnw spring-boot:run
 ```
 ## Endpoints
 
-| Método | Endpoint  
-| ------------- | -------------
-| GET | /planetas
-| GET | /planetas/{id}
-| GET | /planetas/busca={palavraChave}
-| POST | /planetas
-| PUT | /planetas/{id}
-| DELETE | /planetas/{id}
+| Método | Endpoint | O que deve fazer?
+| ------------- | ------------- | -------------
+| GET | /planetas | Buscar todos os planetas 
+| GET | /planetas/{id} | Buscar planeta por id
+| GET | /planetas/busca={palavraChave} | Buscar planeta por nome, clima ou terreno utilizando palavra chave
+| POST | /planetas | Adicionar planeta
+| PUT | /planetas/{id} | Atualizar planeta
+| DELETE | /planetas/{id} | Excluir planeta
 
 
 Request:
